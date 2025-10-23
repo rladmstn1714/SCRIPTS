@@ -1,20 +1,22 @@
 <div align="center">
-  <h1> Are they lovers or friends?Evaluating LLMs’ Social Reasoning in English and Korean Dialogues </h1>
+  <h1> Are they lovers or friends? Evaluating LLMs' Social Reasoning in English and Korean Dialogues </h1>
   <p>
     <a href="https://arxiv.org/pdf/2510.19028">
-      <img src="https://img.shields.io/badge/ArXiv-SCRIPTS-<COLOR>" alt="Paper">
+      <img src="https://img.shields.io/badge/ArXiv-SCRIPTS-red" alt="Paper">
     </a>
     <a href="https://github.com/rladmstn1714/SCRIPTS">
       <img src="https://img.shields.io/badge/GitHub-Code-blue" alt="GitHub">
     </a>
-    <!-- <a href="https://huggingface.co/BenchHub">
-      <img src="https://img.shields.io/badge/HuggingFace-Dataset&Demo-yellow" alt="Hugging Face">
-    </a> -->
+    <a href="https://huggingface.co/datasets/EunsuKim/SCRIPTS">
+      <img src="https://img.shields.io/badge/🤗_HuggingFace-Dataset-yellow" alt="Hugging Face">
+    </a>
+    <a>
+    </a>
   </p>
 </div>
 
 
-**Official repository for [Are they lovers or friends?Evaluating LLMs’ Social Reasoning in English and Korean Dialogues](https://arxiv.org/pdf/2510.19028).**
+**Official repository for [Are they lovers or friends? Evaluating LLMs' Social Reasoning in English and Korean Dialogues](https://arxiv.org/pdf/2510.19028).**
 
 
 ## Structure
