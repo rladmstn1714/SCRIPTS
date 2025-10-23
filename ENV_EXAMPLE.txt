@@ -26,3 +26,30 @@ HUGGINGFACEHUB_API_TOKEN=your_huggingface_token_here
 # HuggingFace cache directory (optional)
 HF_HOME=/path/to/your/model/cache
 
+# Create a .env file in the SCRIPTS directory with these variables
+
+# OpenAI API Key (for GPT models)
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Google Gemini API Key
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Anthropic API Key (for Claude models)
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+
+# OpenRouter API Key (unified API for multiple models)
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+
+# NAVER HyperCLOVA X API Key
+NCP_CLOVASTUDIO_API_KEY=your_ncp_clovastudio_api_key_here
+
+# Azure OpenAI (optional)
+AZURE_OPENAI_API_KEY=your_azure_key_here
+AZURE_OPENAI_ENDPOINT=your_azure_endpoint_here
+
+# HuggingFace Token (for downloading models)
+HUGGINGFACEHUB_API_TOKEN=your_huggingface_token_here
+
+# HuggingFace cache directory (optional)
+HF_HOME=/path/to/your/model/cache
+

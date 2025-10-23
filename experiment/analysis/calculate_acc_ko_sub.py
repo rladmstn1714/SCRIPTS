@@ -15,6 +15,7 @@ from core.evaluate import (
     extract_brace_content, score_age, score_age_diff,
     score_gender, score_gender_diff, score_relation, score_sub_relation
 )
+from utils import standardize_column_names
 from config import KOREAN_RESULT_DIR, KOREAN_DATASET, KOREAN_SCORE_DIR
 
 # Path configuration
@@ -111,6 +112,7 @@ def main():
     
     print(f"Loading ground truth from: {GT_FILE}")
     gt_df = pd.read_csv(GT_FILE)
+    gt_df = standardize_column_names(gt_df)  # Standardize column names
     
     # Check if sub-relation columns exist
     required_cols = ['intimacy_gold', 'formality_gold', 'hierarchy_gold']

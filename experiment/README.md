@@ -498,3 +498,58 @@ For issues or questions, refer to:
 - Module docstrings
 - Function documentation
 - Example scripts in `analysis/`
+
+
+def get_custom_prompt(variable, dialogue):
+    return CUSTOM_PROMPT.format(Variable=variable, Dialogue=dialogue)
+```
+
+### Batch Processing
+
+For processing multiple models:
+
+```bash
+for model in gpt-4o gpt-4o-mini gemini-2.5-flash; do
+    python analysis/eval_llm.py \
+        --model_name $model \
+        --input_path ../dataset/korean_combined.csv \
+        --output_path ../results/korean/${model}.csv \
+        --type relation
+done
+```
+
+## Performance Tips
+
+### Multi-GPU Inference
+
+For local models:
+
+```bash
+python analysis/eval_llm.py \
+    --model_name llama-3.1-8b \
+    --tensor_parallel_size 4 \
+    ...
+```
+
+### Batch Size
+
+For vLLM models, adjust in `models/models.py`:
+
+```python
+self.model = LLM(
+    model=model_path,
+    tensor_parallel_size=tensor_parallel_size,
+    max_model_len=8192  # Adjust as needed
+)
+```
+
+## API Reference
+
+See inline documentation in each module file for complete API details.
+
+## Support
+
+For issues or questions, refer to:
+- Module docstrings
+- Function documentation
+- Example scripts in `analysis/`

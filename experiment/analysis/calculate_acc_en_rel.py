@@ -16,6 +16,7 @@ from core.evaluate import (
     score_gender, score_gender_diff, score_relation, score_sub_relation
 )
 from models import ChatModel
+from utils import standardize_column_names, get_column
 from config import ENGLISH_RESULT_DIR, ENGLISH_DATASET, ENGLISH_SCORE_DIR
 
 # Initialize judge model (requires API key)
@@ -129,6 +130,7 @@ def calculate_accuracy_for_file(csv_path, gt_df):
         if gt_rows.empty:
             continue
         
+        # Use unified column name
         gt_relation = gt_rows.iloc[0].get('relation_high_probable_gold', '')
         
         # Extract prediction
@@ -172,6 +174,7 @@ def main():
     
     print(f"Loading ground truth from: {GT_FILE}")
     gt_df = pd.read_csv(GT_FILE)
+    gt_df = standardize_column_names(gt_df)  # Standardize column names
     
     # Find all result CSV files
     if not os.path.exists(RESULT_DIR):

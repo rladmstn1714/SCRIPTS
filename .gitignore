@@ -42,7 +42,7 @@ env/
 results/
 *.json
 *.log
-
+*.backup
 # Jupyter Notebook
 .ipynb_checkpoints
 

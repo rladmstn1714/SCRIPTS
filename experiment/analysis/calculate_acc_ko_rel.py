@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'
 
 from core.evaluate import extract_brace_content
 from models import ChatModel
+from utils import standardize_column_names, get_column
 from config import KOREAN_RESULT_DIR, KOREAN_DATASET, KOREAN_SCORE_DIR
 
 # Initialize judge model (requires API key)
@@ -124,7 +125,8 @@ def calculate_accuracy_for_file(csv_path, gt_df):
         if gt_rows.empty:
             continue
         
-        gt_relation = gt_rows.iloc[0].get('relation_best', '')
+        # Use unified column name
+        gt_relation = gt_rows.iloc[0].get('relation_high_probable_gold', '')
         
         # Extract prediction
         pred_relation = extract_brace_content_or_raw(generated)
@@ -167,6 +169,7 @@ def main():
     
     print(f"Loading ground truth from: {GT_FILE}")
     gt_df = pd.read_csv(GT_FILE)
+    gt_df = standardize_column_names(gt_df)  # Standardize column names
     
     # Find all result CSV files
     if not os.path.exists(RESULT_DIR):

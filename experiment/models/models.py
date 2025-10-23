@@ -518,3 +518,31 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Error: {e}")
 
+
+                max_tokens=max_tokens,
+                temperature=temp,
+                tensor_parallel_size=tensor_parallel_size,
+                thinking_budget=thinking_budget
+            )
+        
+        else:
+            raise ValueError(
+                f"\n{'='*60}\n"
+                f"ERROR: Don't know how to create model '{model_name}'\n"
+                f"{'='*60}\n"
+            )
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", type=str, default="test")
+    args = parser.parse_args()
+    
+    try:
+        model = ChatModel.create_model(args.model)
+        response = model.invoke("Hello, how are you?")
+        print(f"Response: {response.content}")
+    except Exception as e:
+        print(f"Error: {e}")
+

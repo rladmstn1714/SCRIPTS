@@ -86,7 +86,7 @@ def prompt_generate(row, type='relation', mode="plain-ko"):
         gender = row.get('gender', '')
         age = row.get('age', '')
         sub_relation = row.get('sub_relation', '')
-        relation = row.get('relation_best', '')
+        relation = row.get('relation_high_probable_gold', '')
     except:
         gender = age = sub_relation = relation = ''
     
