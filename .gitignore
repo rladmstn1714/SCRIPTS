@@ -40,7 +40,6 @@ env/
 
 # Results and outputs
 results/
-*.csv
 *.json
 *.log
 
