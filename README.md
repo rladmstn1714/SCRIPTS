@@ -1,5 +1,5 @@
 <div align="center">
-  <h1> Are they lovers or friends?Evaluating LLMs’ Social Reasoning in English and Korean Dialogues </h1>
+  <h1> Are they lovers or friends? Evaluating LLMs’ Social Reasoning in English and Korean Dialogues </h1>
   <p>
     <a href="https://arxiv.org/pdf/2510.19028">
       <img src="https://img.shields.io/badge/ArXiv-SCRIPTS-<COLOR>" alt="Paper">
