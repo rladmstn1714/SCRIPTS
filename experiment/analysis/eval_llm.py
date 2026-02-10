@@ -36,7 +36,7 @@ def parse_args():
     parser.add_argument('--output_path', type=str, required=True, 
                        help='Output data path (CSV file)')
     parser.add_argument('--mode', type=str, default='plain-ko', 
-                       help='Evaluation mode (plain-ko, cot-en, etc.)')
+                       help='Evaluation mode (plain-ko, plain-en, cot-en, etc.)')
     parser.add_argument('--type', type=str, default='relation', 
                        help='Evaluation type (relation, sub-relation, age, gender)')
     parser.add_argument('--cot', action='store_true', 
@@ -109,6 +109,21 @@ def prompt_generate(row, type='relation', mode="plain-ko"):
                 f"{dialogue}\n\n"
             )
         
+        elif mode == "plain-en":
+            prompt = (
+                "Read the following conversation and infer the relationship between A and B. "
+                "When inferring the relationship, refer to these examples:\n"
+                f"{example_relations}\n\n"
+                "If it matches one of the examples, use it. Otherwise, describe the relationship yourself.\n\n"
+                "Your answer must be in JSON format:\n"
+                "{\n"
+                '  "relation": ""\n'
+                "}\n\n"
+                "Conversation:\n"
+                f"{dialogue}\n\n"
+                "Output (JSON):"
+            )
+
         elif mode == "cot-en":
             prompt = (
                 "Read the following conversation and infer the relationship between A and B. "
@@ -268,6 +283,18 @@ def prompt_generate(row, type='relation', mode="plain-ko"):
     return prompt
 
 
+def get_answer_suffix(mode: str, cot: bool) -> str:
+    """Return language-appropriate answer suffix."""
+    is_en = "en" in mode
+    is_ko = "ko" in mode
+    if cot:
+        if is_en:
+            return "\nThink step by step, then provide the final answer in JSON format. Answer:\n"
+        if is_ko:
+           return "\nstep by step으로 생각하여 rationale을 먼저 생성하고, 최종 답을 JSON 형식으로 답변하시오. 답변:\n"
+    return "\nAnswer:\n" if is_en else "\n답변:\n"
+
+
 def main():
     """Main function"""
     args = parse_args()
@@ -306,7 +333,7 @@ def main():
         existing_data = pd.read_csv(args.output_path)
         print(f"Loaded existing results: {len(existing_data)} rows")
     else:
-        existing_data = pd.DataFrame(columns=["dialogue", "generated"])
+        existing_data = pd.DataFrame(columns=["dialogue","prompt", "generated"])
         print("Starting fresh (no existing results)")
     
     # Check if already finished
@@ -333,8 +360,7 @@ def main():
             response = {}
             for p in prompt:
                 try:
-                    if args.cot:
-                        prompt[p] = prompt[p] + "\nstep by step으로 생각하여 rationale을 먼저 생성하고, 최종 답을 JSON 형식으로 답변하시오. 답변:\n"
+                    prompt[p] = prompt[p] + get_answer_suffix(args.mode, args.cot)
                     
                     response[p] = model.invoke(prompt[p]).content
                 except Exception as e:
@@ -343,10 +369,7 @@ def main():
         else:
             # Single prompt case
             try:
-                if args.cot:
-                    prompt = prompt + "\nstep by step으로 생각하여 rationale을 먼저 생성하고, 최종 답을 JSON 형식으로 답변하시오. 답변:\n"
-                else:
-                    prompt = prompt + "\n답변:\n"
+                prompt = prompt + get_answer_suffix(args.mode, args.cot)
                 
                 response = model.invoke(prompt).content
             except Exception as e:
@@ -356,7 +379,7 @@ def main():
         print(f"Processed {idx + 1}/{len(data)}: {str(response)[:100]}...")
         
         # Add new result
-        new_result = pd.DataFrame([{"dialogue": dialogue, "generated": response}])
+        new_result = pd.DataFrame([{"dialogue": dialogue, "prompt": prompt, "generated": response}])
         existing_data = pd.concat([existing_data, new_result], ignore_index=True)
         
         # Save immediately (incremental save)

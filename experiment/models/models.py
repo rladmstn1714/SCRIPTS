@@ -93,11 +93,43 @@ model_configs = {
         "tensor_parallel_size": 4,
         "trust_remote_code": True
     },
+    "qwen/qwen3-32b": {
+        "path": "Qwen/Qwen3-32B",
+        "gpu_memory": "32GB",
+        "tensor_parallel_size": 4,
+        "trust_remote_code": True
+    },
     "ax-4.0-light": {
         "path": "skt/A.X-4.0-Light",
         "gpu_memory": "16GB",
         "tensor_parallel_size": 1,
         "trust_remote_code": True
+    },
+    "kakaocorp/kanana-2-30b-a3b-instruct-2601": {
+        "path": "kakaocorp/kanana-2-30b-a3b-instruct-2601",
+        "gpu_memory": "48GB",
+        "tensor_parallel_size": 4,
+        "trust_remote_code": True
+    },
+    "meta-llama/llama-3.3-70b-instruct": {
+        "path": "meta-llama/Llama-3.3-70B-Instruct",
+        "gpu_memory": "80GB",
+        "tensor_parallel_size": 8,
+        "trust_remote_code": True
+    },
+    "naver-hyperclovax/hyperclovax-seed-omni-8b": {
+        "path": "naver-hyperclovax/HyperCLOVAX-SEED-Omni-8B",
+        "gpu_memory": "16GB",
+        "tensor_parallel_size": 1,
+        "trust_remote_code": True,
+        "use_transformers": True
+    },
+    "naver-hyperclovax/hyperclovax-seed-think-32b": {
+        "path": "naver-hyperclovax/HyperCLOVAX-SEED-Think-32B",
+        "gpu_memory": "48GB",
+        "tensor_parallel_size": 4,
+        "trust_remote_code": True,
+        "use_transformers": True
     },
     
     # API-based models
@@ -165,7 +197,8 @@ class HuggModel:
         if name in model_configs and isinstance(model_configs[name], dict):
             config = model_configs[name]
             model_path = config["path"]
-            tensor_parallel_size = config.get("tensor_parallel_size", tensor_parallel_size)
+            if tensor_parallel_size is None:
+                tensor_parallel_size = config.get("tensor_parallel_size", tensor_parallel_size)
             trust_remote_code = config.get("trust_remote_code", True)
             
             print(f"Loading configured model: {name}")
@@ -173,8 +206,8 @@ class HuggModel:
             print(f"  Tensor parallel size: {tensor_parallel_size}")
             print(f"  GPU memory: {config.get('gpu_memory', 'Unknown')}")
             
-            # Special handling for exaone-4.0-32b model
-            if "exaone-4.0-32b" in name:
+            # Special handling for transformers-only models
+            if config.get("use_transformers") or "exaone-4.0-32b" in name:
                 print("Using transformers directly for exaone-4.0-32b")
                 try:
                     from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -182,12 +215,12 @@ class HuggModel:
                 except ImportError:
                     raise ImportError("transformers and torch packages are required. Install with: pip install transformers torch")
                 
-                self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+                self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=trust_remote_code)
                 self.model = AutoModelForCausalLM.from_pretrained(
                     model_path,
                     torch_dtype=torch.bfloat16,
                     device_map="auto",
-                    trust_remote_code=True
+                    trust_remote_code=trust_remote_code
                 )
                 self.use_transformers = True
                 print(f"✓ Model loaded successfully: {name}")
@@ -208,10 +241,14 @@ class HuggModel:
                 )
         else:
             # Legacy support for direct model names
+            try:
+                from vllm import LLM
+            except ImportError:
+                raise ImportError("vllm package is required for local model inference. Install with: pip install vllm")
             if 'mnt' in self.name:
-                self.model = LLM(self.name, trust_remote_code=True)  
+                self.model = LLM(self.name, trust_remote_code=True)
             else:
-                self.model = LLM(self.name)
+                self.model = LLM(self.name, trust_remote_code=True)
         
         print(f"✓ Model loaded successfully: {name}")
     
@@ -485,40 +522,12 @@ class ChatModel:
         # Korean and other HuggingFace models
         elif any(keyword in model_name for keyword in ["midm", "kanana", "ax-4.0", "qwen", "exaone", "seed", "llama", "mixtral", "mistral", "deepseek", "gemma", "olmoe"]):
             if isinstance(model_configs[model_name], dict):
-                model_path = model_configs[model_name]['path']
+                hugg_name = model_name
             else:
-                model_path = model_configs[model_name]
+                hugg_name = model_configs[model_name]
             
             return HuggModel(
-                model_path,
-                max_tokens=max_tokens,
-                temperature=temp,
-                tensor_parallel_size=tensor_parallel_size,
-                thinking_budget=thinking_budget
-            )
-        
-        else:
-            raise ValueError(
-                f"\n{'='*60}\n"
-                f"ERROR: Don't know how to create model '{model_name}'\n"
-                f"{'='*60}\n"
-            )
-
-
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--model", type=str, default="test")
-    args = parser.parse_args()
-    
-    try:
-        model = ChatModel.create_model(args.model)
-        response = model.invoke("Hello, how are you?")
-        print(f"Response: {response.content}")
-    except Exception as e:
-        print(f"Error: {e}")
-
-
+                hugg_name,
                 max_tokens=max_tokens,
                 temperature=temp,
                 tensor_parallel_size=tensor_parallel_size,
