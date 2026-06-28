@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="SCRIPTS: Evaluating LLMs' social reasoning in English and Korean dialogues." />
+  <meta property="og:title" content="SCRIPTS: Social Reasoning in English and Korean Dialogues" />
+  <meta property="og:description" content="A bilingual dialogue benchmark for interpersonal relation inference with rich human annotations." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#be123c" />
+  <title>SCRIPTS | Social Reasoning in English and Korean Dialogues</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav aria-label="Primary navigation">
+        <div class="brand-group">
+          <a class="brand" href="#top" aria-label="SCRIPTS home">
+            <span>SCRIPTS</span>
+          </a>
+        </div>
+        <div class="nav-links">
+          <a href="#dataset">Dataset</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <h1>Are they lovers or friends? Evaluating LLMs' Social Reasoning in English and Korean Dialogues</h1>
+
+        <div class="authors" aria-label="Authors">
+          <span>Eunsu Kim</span>
+          <span>Junyeong Park</span>
+          <span>Juhyun Oh</span>
+          <span>Kiwoong Park</span>
+          <span>Seyoung Song</span>
+          <span>Alice Oh</span>
+          <span>A. Seza Doğruöz</span>
+          <span>Najoung Kim</span>
+        </div>
+        <div class="affiliations">KAIST, Universiteit Gent, Boston University</div>
+
+        <p class="subtitle">
+          As LLMs are increasingly deployed in complex, multi-party human–AI interactions, their ability to reason about interpersonal relationships through dialogue is becoming critical. SCRIPTS is a bilingual benchmark comprising movie-script dialogues annotated by native Korean and English speakers with probabilistic relationship labels.
+        </p>
+
+        <div class="buttons" aria-label="Paper resources">
+          <a class="button primary" href="https://arxiv.org/abs/2510.19028" target="_blank" rel="noopener">Paper</a>
+          <a class="button" href="https://github.com/rladmstn1714/SCRIPTS" target="_blank" rel="noopener">Code</a>
+          <a class="button" href="https://huggingface.co/datasets/EunsuKim/SCRIPTS" target="_blank" rel="noopener">Dataset (HF)</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="dataset">
+      <div class="container">
+        <div class="section-title">
+          <h2>Dataset examples</h2>
+          <p>
+            Switch between English and Korean, then pick a–d to browse examples.
+          </p>
+        </div>
+
+        <div id="datasetExamples" class="card" aria-live="polite">
+          <p class="example-error">Loading examples…</p>
+        </div>
+
+        <div class="buttons" style="margin-top: 24px;">
+          <a class="button" href="https://huggingface.co/datasets/EunsuKim/SCRIPTS" target="_blank" rel="noopener">Full dataset on Hugging Face</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="results">
+      <div class="container">
+        <div class="section-title">
+          <h2>Qualitative failure analysis</h2>
+          <p>
+            From CoT experiments, we identify four recurring failure types. <strong>Click a colored bar segment or legend button</strong> in Figure 3 to open a representative dialogue example below.
+          </p>
+        </div>
+
+        <div id="failureExplorer" class="failure-explorer">
+          <figure class="card error-dist-card">
+            <figcaption class="error-dist-caption">
+              <strong>Figure 3.</strong> Distribution of GPT-4o's failure cases by error type in English and Korean.
+    
+            </figcaption>
+
+            <div class="stacked-chart" aria-label="Interactive stacked bar chart of GPT-4o failure types for English and Korean">
+              <div class="stacked-row">
+                <span class="stacked-lang">English</span>
+                <div class="stacked-bar">
+                  <button class="stacked-seg seg-aggregate" type="button" data-failure-type="aggregate" style="width: 53.2%" title="Click: Failure to Aggregate Multiple Cues"></button>
+                  <button class="stacked-seg seg-atypical" type="button" data-failure-type="atypical" style="width: 38.1%" title="Click: Failure to Recognize Beyond Typical Relationships"></button>
+                  <button class="stacked-seg seg-terms" type="button" data-failure-type="terms" style="width: 8.7%" title="Click: Failure to Understand Terms of Address and References"></button>
+                </div>
+              </div>
+
+              <div class="stacked-row">
+                <span class="stacked-lang">Korean</span>
+                <div class="stacked-bar">
+                  <button class="stacked-seg seg-culture" type="button" data-failure-type="culture" style="width: 51.1%" title="Click: Failure to Understand Language- or Culture-Specific Features"></button>
+                  <button class="stacked-seg seg-terms" type="button" data-failure-type="terms" style="width: 17.8%" title="Click: Failure to Understand Terms of Address and References"></button>
+                  <button class="stacked-seg seg-aggregate" type="button" data-failure-type="aggregate" style="width: 20%" title="Click: Failure to Aggregate Multiple Cues"></button>
+                  <button class="stacked-seg seg-atypical" type="button" data-failure-type="atypical" style="width: 11.1%" title="Click: Failure to Recognize Beyond Typical Relationships"></button>
+                </div>
+              </div>
+
+              <div class="stacked-axis-row" aria-hidden="true">
+                <span></span>
+                <div class="stacked-axis-ticks">
+                  <span>0</span><span>20</span><span>40</span><span>60</span><span>80</span><span>100</span>
+                </div>
+              </div>
+              <div class="stacked-axis-row stacked-axis-label-row" aria-hidden="true">
+                <span></span>
+                <div class="stacked-axis-label">Proportion (%)</div>
+              </div>
+            </div>
+
+            <p class="chart-select-hint">↑ Click any segment above or a label below to view an example</p>
+
+            <div class="stacked-legend" role="toolbar" aria-label="Failure type selector">
+              <button class="legend-btn legend-item active" type="button" data-failure-type="terms" aria-pressed="true">
+                <i class="legend-swatch seg-terms"></i>Failure to Understand Terms of Address and References
+              </button>
+              <button class="legend-btn legend-item" type="button" data-failure-type="aggregate" aria-pressed="false">
+                <i class="legend-swatch seg-aggregate"></i>Failure to Aggregate Multiple Cues
+              </button>
+              <button class="legend-btn legend-item" type="button" data-failure-type="atypical" aria-pressed="false">
+                <i class="legend-swatch seg-atypical"></i>Failure to Recognize Beyond Typical Relationships
+              </button>
+              <button class="legend-btn legend-item" type="button" data-failure-type="culture" aria-pressed="false">
+                <i class="legend-swatch seg-culture"></i>Failure to Understand Language- or Culture-Specific Features (Ko)              </button>
+            </div>
+          </figure>
+
+          <div class="failure-example-shell" aria-live="polite">
+            <article class="failure-panel active" data-failure-panel="terms">
+              <h3 class="failure-panel-title">Failure to distinguish terms of address and reference</h3>
+              <p>Models often misinterpret a <strong>term of reference</strong> as a <strong>term of address</strong>, leading to a fundamental misunderstanding of the social context. In Korean, this error is more pervasive because speakers often use terms of address to refer to themselves.</p>
+              <p class="failure-dialogue-label">Dialogue 1 (English)</p>
+              <div class="dialogue-transcript">
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">Hi Officer, can I help you?</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">Yes, I'm hoping you can. An elderly gentleman went missing from the nursing home down the street. Staff seems to think he came here. (…)</span></p>
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">(Pause, then) Oh… that's my Dad. He can't talk. Had a major stroke a few years back. But he's doing well. Ain't ya Pop? (…)</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">OK, well, thanks for your time. Here's my number in case you hear of anything. Sorry to bother you.</span></p>
+              </div>
+              <div class="result-verdict">
+                <p><strong>Ground truth:</strong> Police officer–Civilian, Strangers</p>
+                <p><strong>Prediction:</strong> Parent–Children / Father–son (Llama, Gemini, GPT)</p>
+              </div>
+              <p class="failure-note">Speaker A uses “Dad” to refer to a third person, but models latch onto the keyword and misread it as A addressing B—ignoring that B is called “Officer.”</p>
+            </article>
+
+            <article class="failure-panel" data-failure-panel="aggregate" hidden>
+              <h3 class="failure-panel-title">Failure to aggregate multiple cues</h3>
+              <p>Social reasoning requires integrating multiple contextual cues. Models often fail when cues combine atypically—over-weighting one signal while ignoring others.</p>
+              <p class="failure-dialogue-label">Dialogue 2 (translated from Korean)</p>
+              <div class="dialogue-transcript">
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">(Salutes) Hey.</span></p>
+                <p class="dialogue-line speaker-c"><span class="dialogue-speaker">C</span><span class="dialogue-text">Hey.</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">Hey… What's this? A drowned body? Doesn't even look that deep to me.</span></p>
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">Doesn't seem like he drowned.</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">Then what, a dumped body?</span></p>
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">Nah… doesn't look dumped either. Go take a closer look. Go on.</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">Then what the hell is it?</span></p>
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">Hey B, you know, brace yourself before you look.</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">You kidding me? Damn it… shit…</span></p>
+              </div>
+              <div class="result-verdict">
+                <p><strong>Ground truth:</strong> Friend / Coworker</p>
+                <p><strong>Prediction:</strong> Supervisor–Subordinate (Qwen, Gemini, GPT)</p>
+              </div>
+              <p class="failure-note">GPT-4o detects casual speech and work context, but over-weights B's compliance with A's instruction. For Korean speakers, the absence of honorifics makes a hierarchical reading implausible.</p>
+            </article>
+
+            <article class="failure-panel" data-failure-panel="atypical" hidden>
+              <h3 class="failure-panel-title">Failure to recognize atypical relationships</h3>
+              <p>Models struggle with relationships that deviate from stereotypical patterns—e.g., non-hierarchical parent–child exchanges or hierarchical dynamics between married couples.</p>
+              <p class="failure-dialogue-label">Dialogue 3 (English)</p>
+              <div class="dialogue-transcript">
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">So you're seeing Mom tomorrow, huh? At my parent-teacher thing?</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">Yeah.</span></p>
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">First time in a while.</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">Yeah, but no biggie. Hey, what's with the moping?</span></p>
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">Nothing. It's just… there's this girl. (…)</span></p>
+                <p class="dialogue-line speaker-b"><span class="dialogue-speaker">B</span><span class="dialogue-text">Oh yeah? You like her?</span></p>
+                <p class="dialogue-line speaker-a"><span class="dialogue-speaker">A</span><span class="dialogue-text">I like [C]. This girl's my soulmate. I'm like crazy, stupid, in love with her. And she wants someone else.</span></p>
+              </div>
+              <div class="result-verdict">
+                <p><strong>Ground truth:</strong> Parent–Children</p>
+                <p><strong>Prediction:</strong> Siblings (Llama, GPT, Gemini)</p>
+              </div>
+              <p class="failure-note">All human annotators agree on parent–child, but models reject it because the tone feels “peer-like”—revealing a stereotyped conception of family roles.</p>
+            </article>
+
+            <article class="failure-panel" data-failure-panel="culture" hidden>
+              <h3 class="failure-panel-title">Failure to understand language- or culture-specific features (Korean)</h3>
+              <p>This is the largest share of Korean failures. Models misinterpret kinship terms, terms of address, and honorifics—e.g., treating <em>eomeoni</em> (“mother”) as parent–child whenever it appears, misreading <em>hyungsoo</em> (older brother's wife) as “older brother,” or predicting hierarchy from honorific use incorrectly.</p>
+              <p class="failure-note">These errors highlight how social reasoning depends on culturally embedded linguistic markers—especially in Korean address and honorific systems.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="citation">
+      <div class="container">
+        <div class="section-title">
+          <h2>Citation</h2>
+        </div>
+        <div class="card">
+          <pre id="bibtex">@misc{kim2025loversfriendsevaluatingllms,
+  title={Are they lovers or friends? Evaluating LLMs' Social Reasoning in English and Korean Dialogues},
+  author={Eunsu Kim and Junyeong Park and Juhyun Oh and Kiwoong Park and Seyoung Song and A. Seza Dogruoz and Najoung Kim and Alice Oh},
+  year={2025},
+  eprint={2510.19028},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL},
+  url={https://arxiv.org/abs/2510.19028}
+}</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 SCRIPTS Authors · <a href="https://arxiv.org/abs/2510.19028" target="_blank" rel="noopener" style="color:inherit;font-weight:600;">arXiv</a> · <a href="https://github.com/rladmstn1714/SCRIPTS" target="_blank" rel="noopener" style="color:inherit;font-weight:600;">GitHub</a> · <a href="https://huggingface.co/datasets/EunsuKim/SCRIPTS" target="_blank" rel="noopener" style="color:inherit;font-weight:600;">Hugging Face</a></p>
+    </div>
+  </footer>
+
+  <script src="js/dataset-examples.js" type="module"></script>
+  <script src="js/failure-examples.js" defer></script>
+</body>
+</html>

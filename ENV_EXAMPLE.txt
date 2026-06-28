@@ -53,3 +53,15 @@ HUGGINGFACEHUB_API_TOKEN=your_huggingface_token_here
 # HuggingFace cache directory (optional)
 HF_HOME=/path/to/your/model/cache
 
+
+
+
+
+
+
+
+
+
+
+
+
