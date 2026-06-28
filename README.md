@@ -5,7 +5,10 @@
       <img src="https://img.shields.io/badge/ArXiv-SCRIPTS-red" alt="Paper">
     </a>
     <a href="https://github.com/rladmstn1714/SCRIPTS">
-      <img src="https://img.shields.io/badge/GitHub-Code-blue" alt="GitHub">
+      <img src="https://img.shields.io/badge/GitHub-Code-black" alt="GitHub">
+    </a>
+    <a href="https://rladmstn1714.github.io/SCRIPTS/">
+      <img src="https://img.shields.io/badge/Web-blue" alt="Hugging Face">
     </a>
     <a href="https://huggingface.co/datasets/EunsuKim/SCRIPTS">
       <img src="https://img.shields.io/badge/🤗_HuggingFace-Dataset-yellow" alt="Hugging Face">
