@@ -8,7 +8,7 @@
       <img src="https://img.shields.io/badge/GitHub-Code-black" alt="GitHub">
     </a>
     <a href="https://rladmstn1714.github.io/SCRIPTS/">
-      <img src="https://img.shields.io/badge/Web-blue" alt="Hugging Face">
+      <img src="https://img.shields.io/badge/Web-Project-blue" alt="Hugging Face">
     </a>
     <a href="https://huggingface.co/datasets/EunsuKim/SCRIPTS">
       <img src="https://img.shields.io/badge/🤗_HuggingFace-Dataset-yellow" alt="Hugging Face">
